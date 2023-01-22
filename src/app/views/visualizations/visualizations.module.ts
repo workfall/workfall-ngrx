@@ -13,7 +13,7 @@ import { VisualizationsComponent } from './visualizations.component';
   imports: [
     CommonModule,
     VisualizationsRoutingModule,
-    SharedModule
+    SharedModule,
   ]
 })
 export class VisualizationsModule { }

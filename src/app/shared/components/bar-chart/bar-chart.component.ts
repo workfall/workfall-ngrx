@@ -1,25 +1,41 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EChartsOption } from 'echarts';
+import { ApiService, GetCoinsRes } from '../../services/api.service';
 
 @Component({
   selector: 'app-bar-chart',
   templateUrl: './bar-chart.component.html',
   styleUrls: ['./bar-chart.component.scss'],
 })
-export class BarChartComponent {
-  chartOption: EChartsOption = {
-    xAxis: {
-      type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    },
-    yAxis: {
-      type: 'value',
-    },
-    series: [
-      {
-        data: [820, 932, 901, 934, 1290, 1330, 1320],
-        type: 'bar',
-      },
-    ],
-  };
+export class BarChartComponent implements OnInit {
+  chartOption!: EChartsOption;
+
+  constructor(
+    private apiService: ApiService
+  ) {}
+
+  ngOnInit(): void {
+    this.getCoins()
+  }
+
+  getCoins() {
+    this.apiService.getCoins().subscribe(res => {
+      this.chartOption = {
+        xAxis: {
+          type: 'category',
+          data: [...res.data.coins.map(coin => coin.symbol)],
+        },
+        yAxis: {
+          type: 'value',
+        },
+        series: [
+          {
+            data: [...res.data.coins.map(coin => +coin.price)],
+            type: 'bar',
+          },
+        ],
+      }
+
+    })
+  }
 }

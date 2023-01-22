@@ -4,6 +4,7 @@ import { BarChartComponent } from './components/bar-chart/bar-chart.component';
 import { RadialBarChartComponent } from './components/radial-bar-chart/radial-bar-chart.component';
 import { LineChartComponent } from './components/line-chart/line-chart.component';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { HttpClientModule } from '@angular/common/http';
 
 const COMPONENTS_TO_EXPORT = [
   BarChartComponent,
@@ -12,7 +13,7 @@ const COMPONENTS_TO_EXPORT = [
 ]
 
 const MODULES_TO_EXPORT = [
-  // RouterModule
+  // RouterModule,
 ]
 
 @NgModule({
