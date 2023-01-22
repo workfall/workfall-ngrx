@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
 import { Observable, Subscription } from 'rxjs';
-import { ApiService, GetCoinsRes } from '../../services/api.service';
+import { GetCoinsRes } from '../../services/api.service';
 
 @Component({
   selector: 'app-line-chart',
