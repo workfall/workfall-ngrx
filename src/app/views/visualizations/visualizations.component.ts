@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { GetCoinsRes } from 'src/app/shared/services/api.service';
+import { getCoinsAction } from 'src/app/store/actions/coins.actions';
 
 export type NavItem = workfall.models.NavItem
 
@@ -7,7 +10,7 @@ export type NavItem = workfall.models.NavItem
   templateUrl: './visualizations.component.html',
   styleUrls: ['./visualizations.component.scss']
 })
-export class VisualizationsComponent {
+export class VisualizationsComponent implements OnInit {
   navItems: NavItem[] = [
     {
       label: 'Bar Chart',
@@ -26,5 +29,11 @@ export class VisualizationsComponent {
     }
   ];
 
-  constructor() {}
+  constructor(
+    private store: Store<{ coins: GetCoinsRes }>
+  ) {}
+
+  ngOnInit(): void {
+    this.store.dispatch(getCoinsAction())
+  }
 }
