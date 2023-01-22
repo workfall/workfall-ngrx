@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ApiService, GetCoinsRes } from '../../services/api.service';
 
 @Component({
@@ -13,6 +13,7 @@ export class RadialBarChartComponent implements OnInit {
   chartOption!: EChartsOption;
 
   coinsObservable$: Observable<GetCoinsRes>;
+  coinsObservableSubscription$!: Subscription;
 
   constructor(
     private store: Store<{ coins: GetCoinsRes }>
@@ -25,7 +26,7 @@ export class RadialBarChartComponent implements OnInit {
   }
 
   getCoins() {
-    this.coinsObservable$.subscribe(res => {
+    this.coinsObservableSubscription$ = this.coinsObservable$.subscribe(res => {
       this.chartOption = {
         tooltip: {
           trigger: 'axis',

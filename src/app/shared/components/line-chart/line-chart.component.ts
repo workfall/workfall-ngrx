@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ApiService, GetCoinsRes } from '../../services/api.service';
 
 @Component({
@@ -9,10 +9,11 @@ import { ApiService, GetCoinsRes } from '../../services/api.service';
   templateUrl: './line-chart.component.html',
   styleUrls: ['./line-chart.component.scss']
 })
-export class LineChartComponent implements OnInit {
+export class LineChartComponent implements OnInit, OnDestroy {
   chartOption!: EChartsOption;
 
   coinsObservable$: Observable<GetCoinsRes>;
+  coinsObservableSubscription$!: Subscription;
 
   constructor(
     private store: Store<{ coins: GetCoinsRes }>
@@ -24,8 +25,12 @@ export class LineChartComponent implements OnInit {
     this.getCoins()
   }
 
+  ngOnDestroy(): void {
+    this.coinsObservableSubscription$.unsubscribe()
+  }
+
   getCoins() {
-    this.coinsObservable$.subscribe(res => {
+    this.coinsObservableSubscription$ = this.coinsObservable$.subscribe(res => {
       this.chartOption = {
         xAxis: {
           type: 'category',
