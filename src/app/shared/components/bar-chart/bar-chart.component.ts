@@ -29,23 +29,29 @@ export class BarChartComponent implements OnInit, OnDestroy {
   }
 
   getCoins() {
-    this.coinsObservableSubscription$ = this.coinsObservable$.subscribe(res => {
-      this.chartOption = {
-        xAxis: {
-          type: 'category',
-          data: [...res.data.coins.map(coin => coin.symbol)],
-        },
-        yAxis: {
-          type: 'value',
-        },
-        series: [
-          {
-            data: [...res.data.coins.map(coin => +coin.price)],
-            type: 'bar',
+    this.coinsObservableSubscription$ = this.coinsObservable$.subscribe({
+      next: res => {
+        this.chartOption = {
+          xAxis: {
+            type: 'category',
+            data: [...res.data.coins.map(coin => coin.symbol)],
           },
-        ],
-      }
+          yAxis: {
+            type: 'value',
+          },
+          series: [
+            {
+              data: [...res.data.coins.map(coin => +coin.price)],
+              type: 'bar',
+            },
+          ],
+        }
 
+      },
+      error: err => {
+        // you can do a lot of error handling here like navigating to a fallback UI etc
+        console.error(err);
+      }
     })
   }
 }
